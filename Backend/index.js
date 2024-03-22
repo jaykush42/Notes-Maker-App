@@ -8,18 +8,15 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-// Connect to MongoDB Atlas
 const uri = process.env.uri;
 
 
 async function connectToMongoDB() {
    try {
-       // Connect the client to the MongoDB Atlas cluster
        await mongoose.connect(uri);
 
    } catch (error) {
@@ -27,7 +24,6 @@ async function connectToMongoDB() {
    } 
 }
 
-// Call the function to connect to MongoDB Atlas
 connectToMongoDB();
 
 const userSchema = new mongoose.Schema({
@@ -41,16 +37,12 @@ const userSchema = new mongoose.Schema({
 },{ timestamps: true });
 
 
-
-// Define Note model
 const Note = mongoose.model("Notes", userSchema);
 
-// Listen for successful MongoDB connection
 mongoose.connection.on("connected", () => {
 	console.log("Connected to MongoDB Atlas");
 });
 
-// Listen for MongoDB connection errors
 mongoose.connection.on("error", (err) => {
 	console.error("MongoDB connection error:", err);
 });
@@ -85,7 +77,7 @@ app.put("/api/notes/:id", async (req, res) => {
 	}
 });
 
-// Delete Note by ID
+
 app.delete("/api/notes/:id", async (req, res) => {
 	const noteId = req.params.id;
 
@@ -100,7 +92,6 @@ app.delete("/api/notes/:id", async (req, res) => {
 app.post("/api/notes", async (req, res) => {
 	const { title, content } = req.body;
   
-	// const note = new Note({ title, content });
 	const note = await Note.create({
 		title: title,
 		content: content,
