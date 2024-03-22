@@ -11,7 +11,6 @@ const App = () => {
 	const [content, setContent] = useState("");
 
 	useEffect(() => {
-		// Fetch notes from the server
 		axios
 			.get("http://localhost:5000/api/notes")
 			.then((response) => setNotes(response.data))
@@ -19,7 +18,6 @@ const App = () => {
 	}, []);
 
 	const handleAddNote = () => {
-		// Add a new note to the server
 	if(!title)
 	alert("Please enter title !!")
     
@@ -36,7 +34,6 @@ const App = () => {
 			.catch((error) => console.error("Error adding note:", error));
 	};
 	const handleEditNote = (id, updatedTitle, updatedContent) => {
-		// Update note by ID
 		axios
 			.put(`http://localhost:5000/api/notes/${id}`, {
 				title: updatedTitle,
@@ -52,7 +49,6 @@ const App = () => {
 	};
 
 	const handleDeleteNote = (id) => {
-		// Delete note by ID
 		axios
 			.delete(`http://localhost:5000/api/notes/${id}`)
 			.then((response) => {
